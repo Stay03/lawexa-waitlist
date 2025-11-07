@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawexa Waitlist API Documentation - v1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        nav {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+        }
+
+        .section {
+            background: white;
+            margin: 20px 0;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8eaf6;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .endpoint {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+
+        .method.post {
+            background: #4caf50;
+            color: white;
+        }
+
+        .method.get {
+            background: #2196f3;
+            color: white;
+        }
+
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .code-block pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .params-table th,
+        .params-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .params-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .params-table code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .badge.required {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .badge.optional {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Lawexa Waitlist API</h1>
+        <p>Complete API Reference for Waitlist Management</p>
+        <span class="version-badge">Version 1.0</span>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#authentication">Authentication</a></li>
+                <li><a href="#endpoints">Endpoints</a></li>
+                <li><a href="#referral-system">Referral System</a></li>
+                <li><a href="#errors">Error Handling</a></li>
+            </ul>
+        </nav>
+
+        <section id="overview" class="section">
+            <h2>Overview</h2>
+            <p>The Lawexa Waitlist API allows you to manage a viral waitlist with built-in referral tracking. Users can join the waitlist, receive unique referral links, and climb the rankings by referring others.</p>
+
+            <h3>Base URL</h3>
+            <div class="code-block">
+                <pre>https://lawexa.com/api</pre>
+            </div>
+
+            <h3>Response Format</h3>
+            <p>All responses are returned in JSON format with the following structure:</p>
+            <div class="code-block">
+                <pre>{
+  "success": true|false,
+  "message": "Description of the result",
+  "data": { ... } // Response payload
+}</pre>
+            </div>
+
+            <h3>Rate Limiting</h3>
+            <div class="warning-box">
+                <strong>Important:</strong> The waitlist signup endpoint is rate-limited to <strong>10 requests per minute</strong> per IP address to prevent abuse.
+            </div>
+        </section>
+
+        <section id="authentication" class="section">
+            <h2>Authentication</h2>
+            <div class="info-box">
+                <strong>Note:</strong> Currently, public endpoints require no authentication. The admin endpoint should be protected with authentication in production environments.
+            </div>
+        </section>
+
+        <section id="endpoints" class="section">
+            <h2>API Endpoints</h2>
+
+            <!-- POST /api/waitlist -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/waitlist</span>
+                </h3>
+                <p><strong>Description:</strong> Join the waitlist and receive a unique referral code.</p>
+
+                <h4>Request Parameters</h4>
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>email</code></td>
+                            <td>string</td>
+                            <td><span class="badge required">Required</span></td>
+                            <td>Valid email address (must be unique)</td>
+                        </tr>
+                        <tr>
+                            <td><code>name</code></td>
+                            <td>string</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>User's full name (max 255 characters)</td>
+                        </tr>
+                        <tr>
+                            <td><code>waitlist-ref</code></td>
+                            <td>string</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Referral code from another user</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Request Example</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>curl -X POST https://lawexa.com/api/waitlist \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "name": "John Doe",
+    "waitlist-ref": "ABC12XYZ"
+  }'</pre>
+                </div>
+
+                <h4>Success Response (201 Created)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>{
+  "success": true,
+  "message": "Successfully joined the waitlist!",
+  "data": {
+    "id": 1,
+    "email": "user@example.com",
+    "name": "John Doe",
+    "referral_code": "DPYA0QB3",
+    "referral_link": "https://lawexa.com?waitlist-ref=DPYA0QB3",
+    "position": 42,
+    "total_referrals": 0,
+    "created_at": "2025-11-07T22:18:28+00:00"
+  }
+}</pre>
+                </div>
+
+                <h4>Error Response (422 Validation Error)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>{
+  "message": "The email has already been taken.",
+  "errors": {
+    "email": [
+      "This email is already on the waitlist."
+    ]
+  }
+}</pre>
+                </div>
+
+                <div class="success-box">
+                    <strong>What happens after signup:</strong>
+                    <ul>
+                        <li>User receives a confirmation email via Mailgun</li>
+                        <li>Email includes their referral link and current position</li>
+                        <li>If a referral code was provided, the referrer gets credit</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- GET /api/waitlist/{referralCode}/stats -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/waitlist/{referralCode}/stats</span>
+                </h3>
+                <p><strong>Description:</strong> Get referral statistics for a specific referral code.</p>
+
+                <h4>URL Parameters</h4>
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>referralCode</code></td>
+                            <td>string</td>
+                            <td>8-character referral code (e.g., DPYA0QB3)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Request Example</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>curl -X GET https://lawexa.com/api/waitlist/DPYA0QB3/stats \
+  -H "Accept: application/json"</pre>
+                </div>
+
+                <h4>Success Response (200 OK)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>{
+  "success": true,
+  "data": {
+    "total_referrals": 5,
+    "referral_code": "DPYA0QB3",
+    "referral_link": "https://lawexa.com?waitlist-ref=DPYA0QB3",
+    "position": 15
+  }
+}</pre>
+                </div>
+
+                <h4>Error Response (404 Not Found)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>{
+  "success": false,
+  "message": "Referral code not found."
+}</pre>
+                </div>
+            </div>
+
+            <!-- GET /api/admin/waitlist -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/admin/waitlist</span>
+                </h3>
+                <p><strong>Description:</strong> Get all waitlist entries with statistics (Admin only).</p>
+
+                <div class="warning-box">
+                    <strong>Security Warning:</strong> This endpoint should be protected with authentication middleware in production. Currently, it's publicly accessible for testing purposes.
+                </div>
+
+                <h4>Request Example</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>curl -X GET https://lawexa.com/api/admin/waitlist \
+  -H "Accept: application/json"</pre>
+                </div>
+
+                <h4>Success Response (200 OK)</h4>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre>{
+  "success": true,
+  "total": 100,
+  "entries": [
+    {
+      "id": 2,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "referral_code": "AQETDRT5",
+      "position": 1,
+      "total_referrals": 25,
+      "joined_at": "2025-11-07T22:14:21+00:00"
+    },
+    {
+      "id": 5,
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "referral_code": "HM9A4T9T",
+      "position": 2,
+      "total_referrals": 15,
+      "joined_at": "2025-11-07T22:15:13+00:00"
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="referral-system" class="section">
+            <h2>Referral System</h2>
+
+            <h3>How Position Calculation Works</h3>
+            <p>The waitlist uses a dynamic ranking system based on referrals:</p>
+            <ul>
+                <li><strong>Primary Factor:</strong> Number of referrals (more referrals = better position)</li>
+                <li><strong>Tie-Breaker:</strong> When users have the same number of referrals, whoever joined first gets the better position</li>
+                <li><strong>Dynamic:</strong> Positions update automatically as new referrals are added</li>
+            </ul>
+
+            <h3>Referral Link Format</h3>
+            <div class="code-block">
+                <pre>https://lawexa.com?waitlist-ref={REFERRAL_CODE}</pre>
+            </div>
+
+            <h3>Example Ranking Scenario</h3>
+            <div class="info-box">
+                <strong>Example:</strong>
+                <ul>
+                    <li>User A: 10 referrals → Position #1</li>
+                    <li>User B: 5 referrals (joined yesterday) → Position #2</li>
+                    <li>User C: 5 referrals (joined today) → Position #3</li>
+                    <li>User D: 0 referrals → Position #4</li>
+                </ul>
+                If User D gets 6 referrals, they jump to Position #2!
+            </div>
+        </section>
+
+        <section id="errors" class="section">
+            <h2>Error Handling</h2>
+
+            <h3>HTTP Status Codes</h3>
+            <table class="params-table">
+                <thead>
+                    <tr>
+                        <th>Status Code</th>
+                        <th>Meaning</th>
+                        <th>When It Occurs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>200</code></td>
+                        <td>OK</td>
+                        <td>Request succeeded</td>
+                    </tr>
+                    <tr>
+                        <td><code>201</code></td>
+                        <td>Created</td>
+                        <td>Waitlist entry created successfully</td>
+                    </tr>
+                    <tr>
+                        <td><code>404</code></td>
+                        <td>Not Found</td>
+                        <td>Referral code doesn't exist</td>
+                    </tr>
+                    <tr>
+                        <td><code>422</code></td>
+                        <td>Unprocessable Entity</td>
+                        <td>Validation failed (invalid email, duplicate, etc.)</td>
+                    </tr>
+                    <tr>
+                        <td><code>429</code></td>
+                        <td>Too Many Requests</td>
+                        <td>Rate limit exceeded (>10 requests/minute)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Common Validation Errors</h3>
+            <div class="code-block">
+                <pre>// Duplicate email
+{
+  "message": "The email has already been taken.",
+  "errors": {
+    "email": ["This email is already on the waitlist."]
+  }
+}
+
+// Invalid referral code
+{
+  "message": "The selected waitlist-ref is invalid.",
+  "errors": {
+    "waitlist-ref": ["The referral code provided is invalid."]
+  }
+}
+
+// Missing required field
+{
+  "message": "The email field is required.",
+  "errors": {
+    "email": ["An email address is required to join the waitlist."]
+  }
+}</pre>
+            </div>
+        </section>
+
+        <section id="email-notifications" class="section">
+            <h2>Email Notifications</h2>
+            <p>When a user joins the waitlist, they automatically receive a confirmation email containing:</p>
+            <ul>
+                <li>Welcome message</li>
+                <li>Current position in the waitlist</li>
+                <li>Unique referral code and link</li>
+                <li>Instructions on how to move up the waitlist</li>
+                <li>Total number of referrals</li>
+            </ul>
+            <div class="info-box">
+                <strong>Email Delivery:</strong> Emails are sent asynchronously via Mailgun using Laravel's queue system for optimal performance.
+            </div>
+        </section>
+
+        <section id="examples" class="section">
+            <h2>Complete Examples</h2>
+
+            <h3>JavaScript/Fetch Example</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                <pre>// Join the waitlist
+async function joinWaitlist(email, name, referralCode = null) {
+  const response = await fetch('https://lawexa.com/api/waitlist', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      email: email,
+      name: name,
+      'waitlist-ref': referralCode
+    })
+  });
+
+  const data = await response.json();
+
+  if (data.success) {
+    console.log('Joined! Your referral link:', data.data.referral_link);
+    console.log('Your position:', data.data.position);
+  } else {
+    console.error('Error:', data.message);
+  }
+
+  return data;
+}
+
+// Get referral stats
+async function getStats(referralCode) {
+  const response = await fetch(
+    `https://lawexa.com/api/waitlist/${referralCode}/stats`,
+    {
+      headers: { 'Accept': 'application/json' }
+    }
+  );
+
+  return await response.json();
+}
+
+// Usage
+joinWaitlist('user@example.com', 'John Doe', 'DPYA0QB3');</pre>
+            </div>
+
+            <h3>Python Example</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                <pre>import requests
+
+# Join the waitlist
+def join_waitlist(email, name, referral_code=None):
+    url = "https://lawexa.com/api/waitlist"
+    payload = {
+        "email": email,
+        "name": name
+    }
+    if referral_code:
+        payload["waitlist-ref"] = referral_code
+
+    response = requests.post(
+        url,
+        json=payload,
+        headers={"Accept": "application/json"}
+    )
+
+    return response.json()
+
+# Get stats
+def get_stats(referral_code):
+    url = f"https://lawexa.com/api/waitlist/{referral_code}/stats"
+    response = requests.get(url, headers={"Accept": "application/json"})
+    return response.json()
+
+# Usage
+result = join_waitlist("user@example.com", "John Doe", "DPYA0QB3")
+print(f"Your referral link: {result['data']['referral_link']}")</pre>
+            </div>
+        </section>
+
+        <section id="changelog" class="section">
+            <h2>Changelog</h2>
+            <h3>Version 1.0 (November 2025)</h3>
+            <ul>
+                <li>Initial API release</li>
+                <li>Waitlist signup endpoint</li>
+                <li>Referral tracking system</li>
+                <li>Dynamic position calculation</li>
+                <li>Email notifications via Mailgun</li>
+                <li>Admin dashboard endpoint</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Lawexa. All rights reserved.</p>
+        <p>API Version 1.0 | Last Updated: November 2025</p>
+    </footer>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling;
+            const code = codeBlock.textContent;
+
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = '#4caf50';
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#667eea';
+                }, 2000);
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
