@@ -154,20 +154,15 @@
 <body>
     <div class="email-wrapper">
         <!-- Header Image -->
-        <img src="{{ asset('6.png') }}" alt="Lawexa" class="header-image">
+        <img src="http://localhost/6.png" alt="Lawexa" class="header-image">
 
         <!-- Main Content -->
         <div class="content">
             <h1>You're on the waitlist and will get access soon.</h1>
 
-            <p class="subtitle">Thank you{{ $name ? ', ' . $name : '' }} for joining!</p>
+            <p class="subtitle">Thank you, Stay Njokede for joining!</p>
 
-            @if($customMessage)
-            <div class="custom-message">
-                <p>{{ $customMessage }}</p>
-            </div>
-            @endif
-
+            
             <p class="message">
                 Wondering what you can do with Lawexa? We're building the future of legal assistance.
                 Stay tuned for exclusive updates and early access opportunities.
@@ -177,26 +172,26 @@
             <div class="stats-container">
                 <div class="stat-item">
                     <div class="stat-label">Your Current Position</div>
-                    <div class="stat-value">#{{ $position }}</div>
+                    <div class="stat-value">#1</div>
                 </div>
 
                 <div class="divider"></div>
 
                 <div class="stat-item">
                     <div class="stat-label">Total Referrals</div>
-                    <div class="stat-value">{{ $totalReferrals }}</div>
+                    <div class="stat-value">0</div>
                 </div>
 
                 <div class="divider"></div>
 
                 <div class="stat-item">
                     <div class="stat-label">Your Referral Code</div>
-                    <div class="referral-code-display">{{ $referralCode }}</div>
+                    <div class="referral-code-display">YCFNRQMF</div>
                 </div>
             </div>
 
             <!-- CTA Button -->
-            <a href="{{ $referralLink }}" class="cta-button">Share Your Referral Link</a>
+            <a href="https://lawexa.com?waitlist-ref=YCFNRQMF" class="cta-button">Share Your Referral Link</a>
 
             <!-- Info Section -->
             <div class="info-section">
@@ -211,8 +206,8 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>This email was sent to {{ $entry->email }}</p>
-            <p>&copy; {{ date('Y') }} Lawexa. All rights reserved.</p>
+            <p>This email was sent to staynjokede@gmail.com</p>
+            <p>&copy; 2025 Lawexa. All rights reserved.</p>
         </div>
     </div>
 </body>
