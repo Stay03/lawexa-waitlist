@@ -62,9 +62,9 @@
             margin: 30px auto;
             background-color: #D4AF37;
             color: #ffffff;
-            padding: 16px 40px;
+            padding: 12px 30px;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 16px;
             font-weight: 600;
             text-align: center;
@@ -72,6 +72,23 @@
         }
         .cta-button:hover {
             background-color: #B8941F;
+        }
+        .whatsapp-button {
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
+            background-color: #25D366;
+            color: #ffffff;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .whatsapp-button:hover {
+            background-color: #1da851;
         }
         .stats-container {
             background-color: #FAFAFA;
@@ -106,7 +123,7 @@
             margin: 35px 0;
             padding: 25px;
             background-color: #FFF9E6;
-            border-radius: 8px;
+            border-radius: 4px;
             border-left: 4px solid #D4AF37;
         }
         .info-section h3 {
@@ -149,6 +166,56 @@
             background-color: #e0e0e0;
             margin: 30px 0;
         }
+        .section-divider {
+            height: 2px;
+            background-color: #e0e0e0;
+            margin: 40px 0;
+        }
+        .prize-list {
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .prize-item {
+            margin: 15px 0;
+            padding-left: 0;
+            color: #333;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .benefit-list {
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .benefit-item {
+            margin: 12px 0;
+            padding-left: 0;
+            color: #555;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .section-heading {
+            color: #1a1a1a;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 30px 0 20px 0;
+            text-align: center;
+        }
+        .invite-code-box {
+            background-color: #FAFAFA;
+            border: 2px solid #D4AF37;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .invite-code {
+            font-size: 18px;
+            font-weight: 600;
+            color: #D4AF37;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -158,55 +225,107 @@
 
         <!-- Main Content -->
         <div class="content">
-            <h1>You're on the waitlist and will get access soon.</h1>
+            <h1>You're In! Welcome to the Lawexa Waitlist</h1>
 
-            <p class="subtitle">Thank you{{ $name ? ', ' . $name : '' }} for joining!</p>
-
-            @if($customMessage)
-            <div class="custom-message">
-                <p>{{ $customMessage }}</p>
-            </div>
-            @endif
+            <p class="subtitle">Hi{{ $name ? ' ' . $name : '' }},</p>
 
             <p class="message">
-                Wondering what you can do with Lawexa? We're building the future of legal assistance.
-                Stay tuned for exclusive updates and early access opportunities.
+                Welcome to the Lawexa community!
             </p>
 
-            <!-- Stats Section -->
-            <div class="stats-container">
-                <div class="stat-item">
-                    <div class="stat-label">Your Current Position</div>
-                    <div class="stat-value">#{{ $position }}</div>
-                </div>
+            <p class="message">
+                Your spot on the early access waitlist is confirmed, you're now one step closer to using Lawexa,
+                the AI legal assistant built to make the law clear, simple, and accessible for everyone.
+            </p>
 
-                <div class="divider"></div>
+            <div class="section-divider"></div>
 
-                <div class="stat-item">
-                    <div class="stat-label">Total Referrals</div>
-                    <div class="stat-value">{{ $totalReferrals }}</div>
-                </div>
+            <!-- What Happens Next Section -->
+            <h2 class="section-heading">What Happens Next</h2>
 
-                <div class="divider"></div>
+            <p class="message">
+                We're putting the final touches on Lawexa to deliver the smartest, most intuitive legal experience yet.
+                You'll be notified personally as soon as your access is ready.
+            </p>
 
-                <div class="stat-item">
-                    <div class="stat-label">Your Referral Code</div>
-                    <div class="referral-code-display">{{ $referralCode }}</div>
-                </div>
+            <p class="message">
+                In the meantime, you can skip the line, and even win amazing rewards.
+            </p>
+
+            <div class="section-divider"></div>
+
+            <!-- Skip the Wait Section -->
+            <h2 class="section-heading">Skip the Wait. Climb the Leaderboard. Win Big.</h2>
+
+            <p class="message">
+                Lawexa is powered by community, and we're rewarding those who help us grow.
+            </p>
+
+            <p class="message">
+                Every friend you refer using your unique invite link earns you points on the Lawexa Referral Leaderboard.<br>
+                The more people you invite, the higher you rank, and the bigger the rewards.
+            </p>
+
+            <!-- Prize List -->
+            <div class="info-section">
+                <h3>Top Referrers Win:</h3>
+                <ul class="prize-list">
+                    <li class="prize-item">• 1st Place: Exclusive Lawexa Access + Launch Event VIP Pass + ₦50,000</li>
+                    <li class="prize-item">• 2nd Place: Free 3-Month Lawexa Subscription + Launch Event Invite</li>
+                    <li class="prize-item">• 3rd Place: Free 1-Month Lawexa Subscription</li>
+                </ul>
+            </div>
+
+            <p class="message">
+                Refer just 3 people to get instant early access, and start climbing from there!
+            </p>
+
+            <!-- Invite Link Box -->
+            <div class="invite-code-box">
+                <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">Your unique invite link:</p>
+                <div class="invite-code">{{ $referralLink }}</div>
             </div>
 
             <!-- CTA Button -->
             <a href="{{ $referralLink }}" class="cta-button">Share Your Referral Link</a>
 
-            <!-- Info Section -->
-            <div class="info-section">
-                <h3>Want access sooner? Share Lawexa for a chance at earlier access:</h3>
-                <p>
-                    Share your unique referral link with friends and colleagues.
-                    The more people you refer, the higher you'll climb in the waitlist.
-                    Each referral moves you closer to early access!
-                </p>
-            </div>
+            <div class="section-divider"></div>
+
+            <!-- Shape What We Build Section -->
+            <h2 class="section-heading">Shape What We Build</h2>
+
+            <p class="message">
+                As an early member, you're not just using Lawexa — you're helping shape its future.
+            </p>
+
+            <ul class="benefit-list">
+                <li class="benefit-item">► Weekly Founder Q&As: Share feedback, suggest features, and get sneak peeks.</li>
+                <li class="benefit-item">► Exclusive Lagos Launch Event: Meet the team and connect with other pioneers.</li>
+                <li class="benefit-item">► Vote on Features: Your opinions guide what we build next.</li>
+            </ul>
+
+            <div class="section-divider"></div>
+
+            <!-- Join Community Section -->
+            <h2 class="section-heading">Join the Lawexa Community</h2>
+
+            <p class="message">
+                Connect with other early users, track leaderboard updates, and stay in the loop on prize giveaways:
+            </p>
+
+            <a href="https://chat.whatsapp.com/CNDMnd0eWYp4Qiy7k4oVlL" class="whatsapp-button">Join the WhatsApp Community</a>
+
+            <div class="section-divider"></div>
+
+            <p class="message">
+                We're thrilled to have you on board.<br>
+                Let's make legal knowledge smarter, together.
+            </p>
+
+            <p class="message" style="margin-top: 30px;">
+                <strong>Warm regards,</strong><br>
+                The Lawexa Team
+            </p>
         </div>
 
         <!-- Footer -->
