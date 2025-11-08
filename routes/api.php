@@ -20,6 +20,9 @@ Route::post('/waitlist', [WaitlistController::class, 'store'])
 
 Route::get('/waitlist/{referralCode}/stats', [WaitlistController::class, 'show']);
 
+Route::get('/waitlist/count', [WaitlistController::class, 'count'])
+    ->middleware('throttle:10,1'); // 10 requests per minute
+
 // Admin endpoints (you may want to add authentication middleware later)
 Route::prefix('admin')->group(function () {
     Route::get('/waitlist', [WaitlistController::class, 'index']);

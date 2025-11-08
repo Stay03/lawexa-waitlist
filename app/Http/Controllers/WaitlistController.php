@@ -73,6 +73,21 @@ class WaitlistController extends Controller
     }
 
     /**
+     * Get the total count of waitlist entries.
+     *
+     * @return JsonResponse
+     */
+    public function count(): JsonResponse
+    {
+        $totalUsers = WaitlistEntry::count();
+
+        return response()->json([
+            'success' => true,
+            'total_users' => $totalUsers,
+        ]);
+    }
+
+    /**
      * Get all waitlist entries (admin endpoint).
      *
      * @return JsonResponse

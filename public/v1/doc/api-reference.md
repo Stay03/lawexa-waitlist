@@ -11,6 +11,7 @@
 - [Rate Limiting](#rate-limiting)
 - [Endpoints](#endpoints)
   - [Join Waitlist](#post-apiwaitlist)
+  - [Get Waitlist Count](#get-apiwaitlistcount)
   - [Get Referral Stats](#get-apiwaitlistreferralcodestats)
   - [Admin: List All Entries](#get-apiadminwaitlist)
 - [Referral System](#referral-system)
@@ -58,10 +59,10 @@ http://localhost:8000/api
 
 ## Rate Limiting
 
-The waitlist signup endpoint is rate-limited to prevent abuse:
+The following endpoints are rate-limited to prevent abuse:
 
 - **Limit:** 10 requests per minute per IP address
-- **Endpoint:** `POST /api/waitlist`
+- **Endpoints:** `POST /api/waitlist`, `GET /api/waitlist/count`
 - **Response on Limit:** HTTP 429 (Too Many Requests)
 
 ---
@@ -139,6 +140,41 @@ curl -X POST https://lawexa.com/api/waitlist \
 2. Email includes their referral link and current position
 3. If a referral code was provided, the referrer gets credit
 4. User's position is calculated dynamically based on referrals
+
+---
+
+### GET /api/waitlist/count
+
+Get the total number of users currently on the waitlist.
+
+#### Request
+
+**Headers:**
+```
+Accept: application/json
+```
+
+**No Parameters Required**
+
+#### Example Request
+
+```bash
+curl -X GET https://lawexa.com/api/waitlist/count \
+  -H "Accept: application/json"
+```
+
+#### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "total_users": 150
+}
+```
+
+#### Rate Limiting
+
+This endpoint is rate-limited to 10 requests per minute per IP address. If exceeded, you'll receive a 429 (Too Many Requests) response.
 
 ---
 
@@ -349,6 +385,17 @@ async function joinWaitlist(email, name, referralCode = null) {
   return data;
 }
 
+// Get waitlist count
+async function getWaitlistCount() {
+  const response = await fetch('https://lawexa.com/api/waitlist/count', {
+    headers: { 'Accept': 'application/json' }
+  });
+
+  const data = await response.json();
+  console.log('Total users on waitlist:', data.total_users);
+  return data;
+}
+
 // Get referral stats
 async function getStats(referralCode) {
   const response = await fetch(
@@ -363,6 +410,7 @@ async function getStats(referralCode) {
 
 // Usage
 joinWaitlist('user@example.com', 'John Doe', 'DPYA0QB3');
+getWaitlistCount();
 ```
 
 ### Python
@@ -388,6 +436,14 @@ def join_waitlist(email, name, referral_code=None):
 
     return response.json()
 
+# Get waitlist count
+def get_waitlist_count():
+    url = "https://lawexa.com/api/waitlist/count"
+    response = requests.get(url, headers={"Accept": "application/json"})
+    data = response.json()
+    print(f"Total users on waitlist: {data['total_users']}")
+    return data
+
 # Get stats
 def get_stats(referral_code):
     url = f"https://lawexa.com/api/waitlist/{referral_code}/stats"
@@ -397,6 +453,7 @@ def get_stats(referral_code):
 # Usage
 result = join_waitlist("user@example.com", "John Doe", "DPYA0QB3")
 print(f"Your referral link: {result['data']['referral_link']}")
+get_waitlist_count()
 ```
 
 ### PHP
@@ -431,6 +488,22 @@ function joinWaitlist($email, $name, $referralCode = null) {
     return json_decode($response, true);
 }
 
+// Get waitlist count
+function getWaitlistCount() {
+    $url = "https://lawexa.com/api/waitlist/count";
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $data = json_decode($response, true);
+    echo "Total users on waitlist: " . $data['total_users'];
+    return $data;
+}
+
 // Get stats
 function getStats($referralCode) {
     $url = "https://lawexa.com/api/waitlist/{$referralCode}/stats";
@@ -448,6 +521,7 @@ function getStats($referralCode) {
 // Usage
 $result = joinWaitlist('user@example.com', 'John Doe', 'DPYA0QB3');
 echo "Your referral link: " . $result['data']['referral_link'];
+getWaitlistCount();
 ?>
 ```
 
@@ -459,6 +533,7 @@ echo "Your referral link: " . $result['data']['referral_link'];
 
 - ✅ Initial API release
 - ✅ Waitlist signup endpoint
+- ✅ Waitlist count endpoint
 - ✅ Referral tracking system
 - ✅ Dynamic position calculation
 - ✅ Email notifications via Mailgun
